@@ -6,17 +6,16 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 
-//YH: In order to work with JPA, we use @Entity & @Id
 @XmlRootElement
 @Entity
 @Table(name="utenti")
 public class Utente {
 
-	// YH: Be careful that the fields name should be all lower case for JPA.
 	@Id
 	private int uid;
 	private String name;
     private String sesso;
+    private String password;
     private int annoNascita;
     private long cell;
     private String tipoUtente;
@@ -38,5 +37,8 @@ public class Utente {
     }
     public String getTipoUtente() {
 		return tipoUtente;
+    }
+    public String getPassword() {
+      return password;
     }
 }

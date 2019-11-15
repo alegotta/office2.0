@@ -12,19 +12,27 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-public class UtenteController{
+public class UtenteController {
     @Autowired
     UtenteDao utenteDao;
 
-    @RequestMapping(path="api/users", produces={"application/json"})
-    public List<Utente> getUsers(){
+    @RequestMapping(path = "api/users", produces = { "application/json" })
+    public List<Utente> getUsers() {
         List<Utente> users = (List<Utente>) utenteDao.findAll();
         return users;
+    }
+
+    @RequestMapping(path = "api/user/{id}", produces = {"application/json"})
+    public Object getUserId(@RequestBody Integer id) {
+        Optional<Utente> user = utenteDao.findById(id);
+        Utente prova = user.get();
+        return prova;
     }
 
     @PostMapping(path="api/addUser", consumes={"application/json"})
