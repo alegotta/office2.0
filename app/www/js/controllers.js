@@ -5,26 +5,6 @@ angular.module('blescanner.controllers', [])
     {
       name: "Beacon #1",
       uuid: "6A84C716-0F2A-1CE9-F210-6A63BD873DD9"
-    },
-    {
-      name: "Kontakt.io - Regular",
-      uuid: "F7826DA6-4FA2-4E98-8024-BC5B71E0893E"
-    },
-    {
-      name: "Kontakt.io - Secure Shuffling",
-      uuid: "EF9D7835-B7B9-4ABF-9A02-C10AB55E777B"
-    },
-    {
-      name: "BlueCats",
-      uuid: "61687109-905F-4436-91F8-E602F514C96D"
-    },
-    {
-      name: "Gimbal",
-      uuid: "6E7222B3-ED60-499E-B429-445C35B06CA0"
-    },
-    {
-      name: "Estimote",
-      uuid: "E585A54C-8B03-4F5C-B507-7751A5E0D4C1"
     }
   ];
 
