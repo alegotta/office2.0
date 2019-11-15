@@ -3,8 +3,8 @@ angular.module('blescanner.controllers', [])
 .controller('BeaconUUIDEntryCtrl', function($scope, $state) {
   $scope.beaconConfigurations = [
     {
-      name: "GAM - API Healthcare",
-      uuid: "FE913213-B311-4A42-8C16-47FAEAC938EF"
+      name: "Beacon #1",
+      uuid: "6A84C716-0F2A-1CE9-F210-6A63BD873DD9"
     },
     {
       name: "Kontakt.io - Regular",
