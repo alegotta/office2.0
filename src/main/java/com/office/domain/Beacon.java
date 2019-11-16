@@ -15,7 +15,7 @@ public class Beacon {
   private String name;
 	private float posx;
   private float posy;
-  
+
 	public int getId() {
 		return id;
 	}

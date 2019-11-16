@@ -2,8 +2,6 @@ package com.office.domain;
 
 import java.io.Serializable;
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,6 +14,11 @@ import javax.persistence.Table;
 
 
 class MovimentoKey implements Serializable {
+
+  /**
+   *
+   */
+  private static final long serialVersionUID = 1L;
 
   @Column(name = "id")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,8 +40,8 @@ public class Movimento {
   private int id;
   @Id
   private long timestamp;
-  private float posx;
-  private float posy;
+  private double posx;
+  private double posy;
 
   public int getId() {
     return id;
@@ -48,12 +51,27 @@ public class Movimento {
     return timestamp;
   }
 
-  public float getPosX() {
+  public double getPosX() {
     return posx;
   }
 
-  public float getPosY() {
+  public double getPosY() {
     return posy;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+  public void setTimestamp(long t) {
+    this.timestamp = t;
+  }
+
+  public void setPosX(double x) {
+    this.posx = x;
+  }
+
+  public void setPosY(double y) {
+    this.posy = y;
   }
 
   @ManyToOne
