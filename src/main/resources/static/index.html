@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+</head>
+
+<body onload="resize()">
+    <center>
+        <h1 style=" font-family: Georgia, 'Times New Roman', Times, serif;">Live position</h1>
+        <svg id="map" width="400" height="110">
+            <rect id="rect" width="300" height="100" style="fill:rgb(255,255,255);stroke-width:3;stroke:rgb(0,0,0)" />
+            <circle id="circ" cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+        </svg>
+    </center>
+</body>
+
+<script type="text/javascript">
+    function getWidth() {
+        return Math.max(
+            document.body.scrollWidth,
+            document.documentElement.scrollWidth,
+            document.body.offsetWidth,
+            document.documentElement.offsetWidth,
+            document.documentElement.clientWidth
+        );
+    }
+
+    function getHeight() {
+        return Math.max(
+            document.body.scrollHeight,
+            document.documentElement.scrollHeight,
+            document.body.offsetHeight,
+            document.documentElement.offsetHeight,
+            document.documentElement.clientHeight
+        );
+    }
+
+    function resize() {
+        $("#map").attr("width", document.documentElement.clientHeight)
+        $("#map").attr("height", document.documentElement.clientHeight - 100)
+        $("#rect").attr("width", document.documentElement.clientHeight - 30)
+        $("#rect").attr("height", document.documentElement.clientHeight - 100)
+
+    }
+
+    function changePosition() {
+        $.get("https://office2point0.herokuapp.com/api/lastMovimento", function (data) {
+            $(".result").html(data);
+            Console.log(data)
+        });
+    }
+    setInterval(changePosition, 500);
+</script>
+
+</html>

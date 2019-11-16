@@ -39,8 +39,8 @@ public class MovimentoController {
 
     @GetMapping(path = "api/lastMovimento", produces = { "application/json" })
     public Movimento getLastMovimento() {
-        Movimento movimenti = movimentoDao.findLatest();
-        return movimenti;
+        Movimento movimento = movimentoDao.findLatest();
+        return movimento;
     }
 
 

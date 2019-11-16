@@ -11,6 +11,6 @@ public interface MovimentoDao extends JpaRepository<Movimento, Integer>{
 
     List<Movimento> findAllById(int id);
     
-    @Query(value = "Select * from movimenti order by timestamp desc limit to 1 ", nativeQuery = true)
+    @Query(value = "Select * from movimenti order by timestamp desc limit 1 ", nativeQuery = true)
     Movimento findLatest();
 }
