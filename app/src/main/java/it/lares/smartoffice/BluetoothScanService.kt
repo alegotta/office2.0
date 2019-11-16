@@ -29,7 +29,18 @@ import androidx.core.content.ContextCompat.getSystemService
 import android.app.NotificationManager
 import android.content.Context
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
+import android.app.NotificationChannel
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.R
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.app.PendingIntent
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import it.lares.smartoffice.ui.HomeNormal
 
 
 /**
@@ -48,13 +59,17 @@ class BluetoothScanService : IntentService("BluetoothScanService"), BeaconConsum
      *   service running
      */
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
+        createNotificationChannel()
+        val notificationIntent = Intent(baseContext, HomeNormal::class.java)
+        val pendingIntent = PendingIntent.getActivity(this,
+                0, notificationIntent, 0)
 
-        val builder = NotificationCompat.Builder(this, "noti_channel")
-                .setContentTitle(getString(R.string.app_name))
-                .setContentText("Scanner")
-                .setSmallIcon(R.mipmap.icon_doc)
-
-        val notification: Notification = builder.build()
+        val notification = NotificationCompat.Builder(this, "noti_chan")
+                .setContentTitle("Foreground Service")
+                .setContentText("Service")
+                .setSmallIcon(R.drawable.ic_btn_speak_now)
+                .setContentIntent(pendingIntent)
+                .build()
 
         startForeground(1, notification)
         return super.onStartCommand(intent, flags, startId)
@@ -74,13 +89,26 @@ class BluetoothScanService : IntentService("BluetoothScanService"), BeaconConsum
 
         val backgroundPowerSaver = BackgroundPowerSaver(this)
         beaconManager.backgroundBetweenScanPeriod = 0
-        beaconManager.backgroundScanPeriod = 2000   //Scan every 2 seconds
+        beaconManager.backgroundScanPeriod = 1000   //Scan every second
 
         beaconManager.bind(this)
 
         preferences = getSharedPreferences(Const.PREF_FILE, AppCompatActivity.MODE_PRIVATE)
 
         Log.i(TAG, "Started bluetooth scan")
+    }
+
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val serviceChannel = NotificationChannel(
+                    "noti_chan",
+                    "Foreground Service Channel",
+                    NotificationManager.IMPORTANCE_DEFAULT
+            )
+
+            val manager = getSystemService(NotificationManager::class.java)
+            manager.createNotificationChannel(serviceChannel)
+        }
     }
 
     override fun onBeaconServiceConnect() {

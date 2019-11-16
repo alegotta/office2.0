@@ -1,5 +1,6 @@
 package it.lares.smartoffice.http
 
+import it.lares.smartoffice.Application
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -17,7 +18,7 @@ class HttpRequest {
                 .url(url)
                 .build()
 
-        client.newCall(request).enqueue(callback)
+            client.newCall(request).enqueue(callback)
     }
 }
 
