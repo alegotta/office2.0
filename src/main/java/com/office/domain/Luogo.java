@@ -22,10 +22,10 @@ public class Luogo {
 	public String getName() {
 		return name;
   } 
-  public float getPosX(){
+  public float getPosx(){
     return posx;
   }
-  public float getPosY(){
+  public float getPosy(){
     return posy;
   }
 }
