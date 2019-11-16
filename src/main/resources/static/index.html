@@ -47,12 +47,18 @@
     }
 
     function changePosition() {
-        $.get("https://office2point0.herokuapp.com/api/lastMovimento", function (data) {
+        $.get("http://127.0.0.1:8080/api/lastMovimento", function (data) {
             $(".result").html(data);
-            Console.log(data)
+            //alert(JSON.stringify(data.posX))
+            $("#circ").attr("cy", ((document.documentElement.clientHeight) * (data.posX/3)))
+            $("#circ").attr("cx", ((document.documentElement.clientWidth) * (data.posY/3)))
+
+
+
         });
     }
     setInterval(changePosition, 500);
+
 </script>
 
 </html>
