@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name="utenti")
 public class Utente {
 
+  
 	@Id
 	private int uid;
 	private String name;
@@ -18,7 +19,9 @@ public class Utente {
     private String password;
     private int annoNascita;
     private long cell;
-    private String tipoUtente;
+    private int tipoUtente;
+    //0 --> ADMIN
+    //1 --> LAVORATORE
     
 	public int getUid() {
 		return uid;
@@ -35,7 +38,7 @@ public class Utente {
     public long getCell() {
 		return cell;
     }
-    public String getTipoUtente() {
+    public int getTipoUtente() {
 		return tipoUtente;
     }
     public String getPassword() {
