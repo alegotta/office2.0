@@ -37,7 +37,6 @@ public class Movimento {
   private int id;
   @Id
   private long timestamp;
-  private String name;
   private float posx;
   private float posy;
 
@@ -47,10 +46,6 @@ public class Movimento {
 
   public long getTimestamp() {
     return timestamp;
-  }
-
-  public String getName() {
-    return name;
   }
 
   public float getPosX() {

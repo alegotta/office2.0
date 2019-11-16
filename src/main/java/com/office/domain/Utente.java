@@ -14,7 +14,7 @@ public class Utente {
   
 	@Id
 	private int uid;
-	private String name;
+	private String nome;
     private String sesso;
     private String password;
     private int annoNascita;
@@ -26,8 +26,8 @@ public class Utente {
 	public int getUid() {
 		return uid;
 	}
-	public String getName() {
-		return name;
+	public String getNome() {
+		return nome;
     }
     public String getSesso() {
 		return sesso;
