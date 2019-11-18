@@ -1,14 +1,13 @@
-package it.lares.smartoffice.ui
+package it.lares.office20.ui
 
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
-import com.google.android.material.snackbar.Snackbar
-import it.lares.smartoffice.BluetoothScanService
+import it.lares.office20.BluetoothScanService
 import androidx.appcompat.app.AppCompatActivity
-import it.lares.smartoffice.R
+import it.lares.office20.R
 
 import kotlinx.android.synthetic.main.activity_device_select.*
 
@@ -27,7 +26,7 @@ class HomeAdmin : AppCompatActivity() {
         sendNewPoint()
     }
 
-    fun sendNewPoint() {
+    private fun sendNewPoint() {
         findViewById<Button>(R.id.btn_setNewPoint).setOnClickListener {
             val int = Intent(this, BluetoothScanService::class.java)
 

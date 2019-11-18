@@ -1,32 +1,19 @@
-package it.lares.smartoffice.ui
+package it.lares.office20.ui
 
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import it.lares.smartoffice.BluetoothScanService
-import com.google.android.material.snackbar.Snackbar
-import it.lares.smartoffice.app.BeaconApplication
+import it.lares.office20.BluetoothScanService
 import kotlinx.android.synthetic.main.activity_home.*
-import androidx.core.content.ContextCompat.getSystemService
-import android.R
-import android.annotation.TargetApi
-import android.app.*
-import android.content.Context
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.app.ComponentActivity.ExtraData
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
-
 
 
 class HomeNormal : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(it.lares.smartoffice.R.layout.activity_home)
+        setContentView(it.lares.office20.R.layout.activity_home)
         setSupportActionBar(toolbar)
 
         val int = Intent(this, BluetoothScanService::class.java)
@@ -37,6 +24,5 @@ class HomeNormal : AppCompatActivity() {
         } else {
             startService(int)
         }
-
     }
 }

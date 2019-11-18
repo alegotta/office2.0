@@ -1,4 +1,4 @@
-package it.lares.smartoffice
+package it.lares.office20
 
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("it.lares.smartoffice", appContext.packageName)
+        assertEquals("it.lares.office20", appContext.packageName)
     }
 }

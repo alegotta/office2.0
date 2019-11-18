@@ -1,14 +1,9 @@
-package it.lares.smartoffice.permission
+package it.lares.office20.permission
 
 import android.app.Activity
 import com.tbruyelle.rxpermissions.RxPermissions
 import java.util.*
 
-/**
- * 权限请求
- * @author sunpan
- * @date 2018/9/26
- */
 class RxPermissionRequest : RequestPermission {
 
     override fun request(
@@ -42,6 +37,4 @@ class RxPermissionRequest : RequestPermission {
                 }
         }
     }
-
-
 }

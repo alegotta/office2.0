@@ -1,7 +1,8 @@
 # Office2.0 app
 
-This application allows users to **login** using username and password, then it will either:
-- send the nearby beacons to the server (indoor tracking), if the user is a *normal* user
-- set new fixed points (a room, a table, etc...) if the user is part of the admin group
+This application allows employer and employees to **login** using username and password, then it will either:
+
+- **send the nearby beacons** to the server (indoor tracking), if it's an employee
+- **set new fixed points** (a room, a table, etc...) if it's an employer
 
 Icon from Material Icons, license Apache 2.0

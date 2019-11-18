@@ -1,4 +1,4 @@
-package it.lares.smartoffice
+package it.lares.office20
 
 import org.junit.Test
 

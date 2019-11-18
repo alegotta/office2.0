@@ -1,47 +1,49 @@
-package it.lares.smartoffice.ui
+package it.lares.office20.ui
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import it.lares.smartoffice.http.HttpRequest
+import it.lares.office20.Application
+import it.lares.office20.app.Const.Companion.PREF_FILE
+import it.lares.office20.app.Const.Companion.PSW_STR
+import it.lares.office20.app.Const.Companion.SRV_URL
+import it.lares.office20.app.Const.Companion.USER_ADMIN
+import it.lares.office20.app.Const.Companion.USER_STR
+import it.lares.office20.app.Const.Companion.USR_TYPE
+import it.lares.office20.http.HttpRequest
+import it.lares.office20.permission.RequestCallback
+import it.lares.office20.permission.RxPermissionRequest
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.Response
 import org.json.JSONObject
 import java.io.IOException
 import java.security.MessageDigest
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.pm.PackageManager
-import android.os.Build
-import android.widget.Toast
-import it.lares.smartoffice.Application
-import it.lares.smartoffice.app.Const.Companion.PREF_FILE
-import it.lares.smartoffice.app.Const.Companion.SRV_URL
-import it.lares.smartoffice.app.Const.Companion.USER_ADMIN
-import it.lares.smartoffice.R
-import it.lares.smartoffice.app.Const.Companion.PSW_STR
-import it.lares.smartoffice.app.Const.Companion.USER_STR
-import it.lares.smartoffice.app.Const.Companion.USR_TYPE
-import it.lares.smartoffice.permission.RequestCallback
-import it.lares.smartoffice.permission.RxPermissionRequest
+import java.util.*
 
 
 class StartActivity : AppCompatActivity() {
     private lateinit var preferences : SharedPreferences
-
+    private val TAG = "StartActivity"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_start)
+        setContentView(it.lares.office20.R.layout.activity_start)
 
         requestPermission()
 
-        findViewById<Button>(R.id.btn_login).setOnClickListener {
+        findViewById<Button>(it.lares.office20.R.id.btn_login).setOnClickListener {
             makeLogin()
         }
 
@@ -49,8 +51,8 @@ class StartActivity : AppCompatActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Create the NotificationChannel
-            val name = getString(R.string.noti_channel)
-            val descriptionText = getString(R.string.noti_channel)
+            val name = getString(it.lares.office20.R.string.noti_channel)
+            val descriptionText = getString(it.lares.office20.R.string.noti_channel)
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val mChannel = NotificationChannel("noti_channel", name, importance)
             mChannel.description = descriptionText
@@ -62,41 +64,44 @@ class StartActivity : AppCompatActivity() {
 
     }
 
-    fun makeLogin() {
-        val username = findViewById<EditText>(R.id.username).text.toString()
-        val password = findViewById<EditText>(R.id.password).text.toString()
+    private fun makeLogin() {
+        val username = findViewById<EditText>(it.lares.office20.R.id.username).text.toString()
+        val password = findViewById<EditText>(it.lares.office20.R.id.password).text.toString()
 
         val hashPsw = hashString("SHA-256", password)
+
         val fake = false
         if (fake)
             switchScreen(username, hashPsw, USER_ADMIN)
         else {
             if (Application.checkConn(this)) {
 
-                val req = HttpRequest()
-                req.run("$SRV_URL/api/user/$username", object : Callback {
+                HttpRequest().run("$SRV_URL/api/user/$username", object : Callback {
                     override fun onFailure(call: Call, e: IOException) {
-                        Log.e("StartAcvear", "" + e.printStackTrace())
-                        Toast.makeText(this@StartActivity, "Cannot login!", Toast.LENGTH_SHORT).show()
+                        Log.e(TAG, "Failure while trying to login" + e.printStackTrace())
+                        Handler(Looper.getMainLooper()).post {
+                            Toast.makeText(applicationContext, "Network error", Toast.LENGTH_SHORT).show()
+                        }
                     }
 
                     override fun onResponse(call: Call, response: Response) {
                         response.use {
-                            if (!response.isSuccessful) throw IOException("Unexpected code $response")
-                            val resp: String
-
-                            if (response.body != null) {
-                                resp = response.body!!.string()
-
+                            if (!response.isSuccessful) {
+                                Handler(Looper.getMainLooper()).post {
+                                    Toast.makeText(applicationContext, "Error while login!", Toast.LENGTH_SHORT).show()
+                                }
+                                Log.i(TAG, "Response not successful: $response")
+                            } else {
+                                val resp = response.body!!.string()
                                 val json = JSONObject(resp)
 
-
-                                if (json.getString("password") == hashPsw.toLowerCase()) {
+                                if (json.getString("password") == hashPsw.toLowerCase(Locale.ROOT)) {
                                     switchScreen(username, hashPsw, json.getInt("tipoUtente"))
-
                                 } else {
-                                    //Toast.makeText(StartActivity, "Wrong password!", Toast.LENGTH_SHORT).show()
-                                    Log.e("StartAcvear", "Wrong password")
+                                    Handler(Looper.getMainLooper()).post {
+                                        Toast.makeText(applicationContext, "Wrong password!", Toast.LENGTH_SHORT).show()
+                                    }
+                                    Log.e(TAG, "Wrong password")
                                 }
                             }
                         }
@@ -115,7 +120,7 @@ class StartActivity : AppCompatActivity() {
         preferencesEditor.putInt(USR_TYPE, userType)
         preferencesEditor.apply()
 
-        var int = if (userType==USER_ADMIN) {
+        val int = if (userType==USER_ADMIN) {
             Intent(this@StartActivity, HomeAdmin::class.java)
         } else {
             Intent(this@StartActivity, HomeNormal::class.java)
@@ -128,10 +133,10 @@ class StartActivity : AppCompatActivity() {
         val bytes = MessageDigest
                 .getInstance(type)
                 .digest(input.toByteArray())
-        return printHexBinary(bytes).toUpperCase()
+        return printHexBinary(bytes).toUpperCase(Locale.ROOT)
     }
 
-    fun printHexBinary(data: ByteArray): String {
+    private fun printHexBinary(data: ByteArray): String {
         val HEX_CHARS = "0123456789ABCDEF".toCharArray()
 
         val r = StringBuilder(data.size * 2)
@@ -151,7 +156,7 @@ class StartActivity : AppCompatActivity() {
             }
 
             override fun onRequestPermissionFailure() {
-                Toast.makeText(this@StartActivity, getString(R.string.no_location_permission), Toast.LENGTH_SHORT)
+                Toast.makeText(this@StartActivity, getString(it.lares.office20.R.string.no_location_permission), Toast.LENGTH_SHORT).show()
             }
 
         }, android.Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -165,7 +170,7 @@ class StartActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             1001 -> if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
+                //OK
             }
         }
     }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="it.lares.smartoffice">
+    package="it.lares.office20">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -11,37 +11,36 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
-        android:name=".app.BeaconApplication"
+        android:name="it.lares.office20.Application"
         android:allowBackup="false"
         android:icon="@mipmap/icon_doc"
-        android:label="Office 2.0"
+        android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.HomeAdmin"
+            android:name="it.lares.office20.ui.HomeAdmin"
             android:label="@string/title_activity_device_select"
-            android:parentActivityName=".ui.StartActivity"
+            android:parentActivityName="it.lares.office20.ui.StartActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="it.lares.smartoffice.ui.StartActivity" />
+                android:value="it.lares.office20.ui.StartActivity" />
         </activity>
         <activity
-            android:name=".ui.HomeNormal"
+            android:name="it.lares.office20.ui.HomeNormal"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ui.StartActivity"
+        <activity android:name="it.lares.office20.ui.StartActivity"
             android:label="@string/title_activity_start">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <service
-            android:name=".BluetoothScanService"
+            android:name="it.lares.office20.BluetoothScanService"
             android:exported="false" />
     </application>
 
